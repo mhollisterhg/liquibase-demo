@@ -27,16 +27,16 @@ jobs:
         run: |
           echo "${{ steps.liquibase.outputs.body }}"
 
-#      - name: Manual approval
-#        uses: trstringer/manual-approval@v1
-#        with:
-#          secret: ${{ github.TOKEN }}
-#          approvers: mhollisterhg
-#          issue-title: "Liquibase SQL Approval"
-#          minimum-approvals: 1
-#          issue-body: |
-#            **Liquibase update-sql output:**
-#
-#            ```
-#            ${{ steps.liquibase.outputs.body }}
-#            ```
+      - name: Manual approval
+        uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: mhollisterhg
+          issue-title: "Liquibase SQL Approval"
+          minimum-approvals: 1
+          issue-body: |
+            **Liquibase update-sql output:**
+
+            ```
+            ${{ steps.liquibase.outputs.body }}
+            ```
