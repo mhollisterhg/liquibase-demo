@@ -22,16 +22,20 @@ jobs:
           cat update.sql >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
-      - name: Manual approval
-        uses: trstringer/manual-approval@v1
-        with:
-          secret: ${{ github.TOKEN }}
-          approvers: mhollisterhg
-          issue-title: "Liquibase SQL Approval"
-          minimum-approvals: 1
-          issue-body: |
-            **Liquibase update-sql output:**
+      - name: Check output
+        run: |
+          echo ${{ steps.liquibase.outputs.body }}
 
-            ```
-            ${{ steps.liquibase.outputs.body }}
-            ```
+#      - name: Manual approval
+#        uses: trstringer/manual-approval@v1
+#        with:
+#          secret: ${{ github.TOKEN }}
+#          approvers: mhollisterhg
+#          issue-title: "Liquibase SQL Approval"
+#          minimum-approvals: 1
+#          issue-body: |
+#            **Liquibase update-sql output:**
+#
+#            ```
+#            ${{ steps.liquibase.outputs.body }}
+#            ```
