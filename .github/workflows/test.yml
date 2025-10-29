@@ -16,8 +16,12 @@ jobs:
         id: liquibase
         run: |
           seq 1 3 > test.txt
-          
-          echo "body=$(cat test.txt)" >> $GITHUB_OUTPUT
+
+          {
+            echo 'output_name<<EOF'
+            cat test.txt
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
 
       - name: Check output
         run: |
