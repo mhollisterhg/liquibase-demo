@@ -25,7 +25,7 @@ jobs:
         uses: trstringer/manual-approval@v1
         with:
           secret: ${{ github.TOKEN }}
-          approvers: macdhollister
+          approvers: mhollisterhg
           issue-title: "Liquibase SQL Approval"
           minimum-approvals: 1
           issue-body: |
