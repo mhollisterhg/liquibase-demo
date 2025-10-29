@@ -15,9 +15,6 @@ jobs:
       - name: Run Liquibase update-sql
         id: liquibase
         run: |
-          # Run Liquibase to generate the SQL
-          printf "dummy_sql first line\ndummy_sql second line\ndummy_sql third line" > update.sql
-
           echo "body<<EOF" >> $GITHUB_OUTPUT
           cat "line 1" >> $GITHUB_OUTPUT
           cat "line 2" >> $GITHUB_OUTPUT
