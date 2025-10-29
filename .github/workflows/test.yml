@@ -1,12 +1,36 @@
-name: Test
+name: Liquibase Prod Deploy
 
 on:
   workflow_dispatch:
 
 jobs:
-  test:
+  generate-and-approve:
     runs-on: ubuntu-latest
-    environment: prod
+    permissions:
+      issues: write       # required by manual-approval
+      contents: read
     steps:
-      - name: Print test
-        run: echo "test"
+      - uses: actions/checkout@v4
+
+      - name: Run Liquibase update-sql
+        id: liquibase
+        run: |
+          # Run Liquibase to generate the SQL
+          echo "testing before actually adding in liquibase\nDoing a multiline string\nBecause liquibase is gonna do that" > update.sql
+
+          BODY=$(cat update.sql | sed 's/%/%25/g; s/\n/%0A/g;')
+          echo "body=$BODY" >> $GITHUB_OUTPUT
+
+      - name: Manual approval
+        uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: macdhollister
+          issue-title: "Liquibase SQL Approval"
+          minimum-approvals: 1
+          issue-body: |
+            **Liquibase update-sql output:**
+
+            ```
+            ${{ steps.liquibase.outputs.body }}
+            ```
