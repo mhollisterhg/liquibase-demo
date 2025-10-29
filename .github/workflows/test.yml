@@ -16,10 +16,13 @@ jobs:
         id: liquibase
         run: |
           # Run Liquibase to generate the SQL
-          echo "testing before actually adding in liquibase\nDoing a multiline string\nBecause liquibase is gonna do that" > update.sql
+          echo "dummy_sql first line" > update.sql
+          echo "dummy_sql second line" > update.sql
+          echo "dummy_sql third line" > update.sql
 
-          BODY=$(cat update.sql | sed 's/%/%25/g; s/\n/%0A/g;')
-          echo "body=$BODY" >> $GITHUB_OUTPUT
+          echo "body<<EOF" >> $GITHUB_OUTPUT
+          cat update.sql >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Manual approval
         uses: trstringer/manual-approval@v1
