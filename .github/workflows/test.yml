@@ -25,7 +25,7 @@ jobs:
 
       - name: Check output
         run: |
-          echo ${{ steps.liquibase.outputs.body }}
+          echo "${{ steps.liquibase.outputs.body }}"
 
 #      - name: Manual approval
 #        uses: trstringer/manual-approval@v1
