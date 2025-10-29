@@ -12,10 +12,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Java 17 is required for Liquibase version 5
+      # Maybe don't need this with the official action?
+#      - name: Set up Java 17
+#        uses: hgdata/setup-java@v4
+#        with:
+#          java-version: 17
+#          distribution: temurin
+
+      # Install liquibase
+      - uses: liquibase/setup-liquibase@v2
+        with:
+          version: '5.0.1'
+          edition: 'oss'
+
+      - name: Install Databricks Drivers
+        run: liquibase lpm install
+
       - name: Run Liquibase update-sql
         id: liquibase
         run: |
-          seq 1 3 > test.txt
+          liquibase --version > test.txt
 
           {
             echo 'body<<EOF'
@@ -31,8 +48,8 @@ jobs:
         uses: trstringer/manual-approval@v1
         with:
           secret: ${{ github.TOKEN }}
-          approvers: mhollisterhg
-          issue-title: "Liquibase SQL Approval"
+          approvers: mhollisterhg # TODO: Expand this out to a User Group of people who are approved to apply migrations to production tables
+          issue-title: "Liquibase SQL Approval" # TODO Make this better / dynamic
           minimum-approvals: 1
           issue-body: |
             **Liquibase update-sql output:**
