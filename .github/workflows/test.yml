@@ -24,6 +24,9 @@ jobs:
       - name: Check installations
         run: lpm list
 
+      - name: Why is liquibase.json not being found
+        run: ls
+
       - name: Run Liquibase update-sql
         id: liquibase
         run: |
