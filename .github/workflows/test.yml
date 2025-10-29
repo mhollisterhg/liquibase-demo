@@ -16,9 +16,9 @@ jobs:
         id: liquibase
         run: |
           echo "body<<EOF" >> $GITHUB_OUTPUT
-          cat "line 1" >> $GITHUB_OUTPUT
-          cat "line 2" >> $GITHUB_OUTPUT
-          cat "line 3" >> $GITHUB_OUTPUT
+          echo "line 1" >> $GITHUB_OUTPUT
+          echo "line 2" >> $GITHUB_OUTPUT
+          echo "line 3" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Check output
