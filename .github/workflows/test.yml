@@ -17,9 +17,7 @@ jobs:
         run: |
           seq 1 3 > test.txt
           
-          echo 'body<<EOF' >> $GITHUB_OUTPUT
-          cat test.txt >> $GITHUB_OUTPUT
-          echo 'EOF' >> $GITHUB_OUTPUT
+          echo "body=$(cat test.txt)" >> $GITHUB_OUTPUT
 
       - name: Check output
         run: |
