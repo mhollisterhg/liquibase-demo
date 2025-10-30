@@ -5,7 +5,7 @@ on:
 
 env:
   DATABRICKS_HOST: "hginsights-dev.cloud.databricks.com"
-  DATABRICKS_WAREHOUSE: "" # TODO: Add the warehouse here
+  DATABRICKS_WAREHOUSE: "0dc0fd8c15df8ad7" # TODO: Add the warehouse here
   # TODO: This needs to be tested once we're in a repo that can actually use the SP - not my personal repo
 #  DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_SP_ID }}
 #  DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_SP_SECRET }}
@@ -42,7 +42,7 @@ jobs:
       - name: Run Liquibase update-sql # TODO: change the command here to actually run update-sql when creds are set up properly to do so
         id: liquibase
         run: |
-          liquibase --url="jdbc:databricks://${{  }}:443/default;transportMode=http;ssl=1;AuthMech=3;httpPath=/sql/1.0.warehouses/${{ env.DATABRICKS_WAREHOUSE }};ConnCatlog=staging;ConnSchema=mac_liquibase_test" --username="token" --password="${{ env.DATABRICKS_OAUTH_TOKEN }}" --changelogFile="master-changelog.yml" update-sql > update_sql.sql
+          liquibase --url="jdbc:databricks://${{ env.DATABRICKS_HOST }}:443/default;transportMode=http;ssl=1;AuthMech=3;httpPath=/sql/1.0.warehouses/${{ env.DATABRICKS_WAREHOUSE }};ConnCatlog=staging;ConnSchema=mac_liquibase_test" --username="token" --password="${{ env.DATABRICKS_OAUTH_TOKEN }}" --changelogFile="master-changelog.yml" update-sql > update_sql.sql
 
           {
             echo 'body<<EOF'
