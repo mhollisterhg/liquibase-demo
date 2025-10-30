@@ -1,11 +1,15 @@
-name: Liquibase Prod Deploy
+name: Liquibase Dev Deploy
 
 on:
   workflow_dispatch:
 
 env:
-  DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_SP_ID }}
-  DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_SP_SECRET }}
+  DATABRICKS_HOST: "hginsights-dev.cloud.databricks.com"
+  DATABRICKS_WAREHOUSE: "" # TODO: Add the warehouse here
+  # TODO: This needs to be tested once we're in a repo that can actually use the SP - not my personal repo
+#  DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_SP_ID }}
+#  DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_SP_SECRET }}
+  DATABRICKS_OAUTH_TOKEN: ${{ secrets.DATABRICKS_OAUTH_TOKEN }}
 
 jobs:
   generate-and-approve:
@@ -25,10 +29,20 @@ jobs:
       - name: Install Databricks Drivers
         run: liquibase lpm install
 
+#      - name: Get Databricks token
+#        id: token
+#        run: |
+#          token_response=$(curl -s -X POST "https://${{ env.DATABRICKS_INSTANCE }}/oidc/v1/token" \
+#            -u "${{ env.DATABRICKS_CLIENT_ID }}:${{ env.DATABRICKS_CLIENT_SECRET }}" \
+#            --data 'grant_type=client_credentials')
+#
+#          echo "DATABRICKS_OAUTH_TOKEN=$(echo $token_response | jq -r .access_token)" >> $GITHUB_ENV
+
+      # TODO change "mac_liquibase_test" as the default schema in the URL string
       - name: Run Liquibase update-sql # TODO: change the command here to actually run update-sql when creds are set up properly to do so
         id: liquibase
         run: |
-          liquibase --version > update_sql.sql
+          liquibase --url="jdbc:databricks://${{  }}:443/default;transportMode=http;ssl=1;AuthMech=3;httpPath=/sql/1.0.warehouses/${{ env.DATABRICKS_WAREHOUSE }};ConnCatlog=staging;ConnSchema=mac_liquibase_test" --username="token" --password="${{ env.DATABRICKS_OAUTH_TOKEN }}" --changelogFile="master-changelog.yml" update-sql > update_sql.sql
 
           {
             echo 'body<<EOF'
