@@ -39,8 +39,7 @@ jobs:
 #          echo "DATABRICKS_OAUTH_TOKEN=$(echo $token_response | jq -r .access_token)" >> $GITHUB_ENV
 
       # TODO change "mac_liquibase_test" as the default schema in the URL string
-      - name: Run Liquibase update-sql # TODO: change the command here to actually run update-sql when creds are set up properly to do so
-        id: liquibase
+      - name: Run Liquibase update-sql
         run: |
           liquibase --url="jdbc:databricks://${{ env.DATABRICKS_HOST }}:443/default;transportMode=http;ssl=1;AuthMech=3;httpPath=/sql/1.0/warehouses/${{ env.DATABRICKS_WAREHOUSE }};ConnCatalog=dev;ConnSchema=mac_liquibase_test" --username="token" --password="${{ env.DATABRICKS_OAUTH_TOKEN }}" --changelogFile="master-changelog.yml" update-sql > update_sql.sql
 
@@ -64,5 +63,6 @@ jobs:
             ${{ steps.liquibase.outputs.body }}
             ```
 
-      - name: Post manual approval
-        run: echo "This runs after the manual approval operator - will eventually be 'liquibase update'"
+      - name: Run Liquibase update
+        run: |
+          liquibase --url="jdbc:databricks://${{ env.DATABRICKS_HOST }}:443/default;transportMode=http;ssl=1;AuthMech=3;httpPath=/sql/1.0/warehouses/${{ env.DATABRICKS_WAREHOUSE }};ConnCatalog=dev;ConnSchema=mac_liquibase_test" --username="token" --password="${{ env.DATABRICKS_OAUTH_TOKEN }}" --changelogFile="master-changelog.yml" update
