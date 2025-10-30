@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: yml_example_1
+      author: mac
+      labels: table:yml_example_2
+      changes:
+        - sql: |
+            create table yml_example_2 (
+              c1 int primary key,
+              other string
+            )
+
+      rollback: |
+        drop table yml_example_2

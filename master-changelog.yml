@@ -2,7 +2,3 @@ databaseChangeLog:
   - includeAll:
       path: models/schema_1/
       relativeToChangelogFile: true
-
-  - includeAll:
-      path: models/schema_2/
-      relativeToChangelogFile: true
