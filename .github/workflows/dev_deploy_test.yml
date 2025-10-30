@@ -40,6 +40,7 @@ jobs:
 
       # TODO change "mac_liquibase_test" as the default schema in the URL string
       - name: Run Liquibase update-sql
+        id: liquibase_update_sql
         run: |
           liquibase --url="jdbc:databricks://${{ env.DATABRICKS_HOST }}:443/default;transportMode=http;ssl=1;AuthMech=3;httpPath=/sql/1.0/warehouses/${{ env.DATABRICKS_WAREHOUSE }};ConnCatalog=dev;ConnSchema=mac_liquibase_test" --username="token" --password="${{ env.DATABRICKS_OAUTH_TOKEN }}" --changelogFile="master-changelog.yml" update-sql > update_sql.sql
 
@@ -60,7 +61,7 @@ jobs:
             **Liquibase update-sql output:**
 
             ```
-            ${{ steps.liquibase.outputs.body }}
+            ${{ steps.liquibase_update_sql.outputs.body }}
             ```
 
       - name: Run Liquibase update
