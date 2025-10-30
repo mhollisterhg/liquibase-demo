@@ -1,4 +1,7 @@
 .idea
 .vscode
 
-# add your repo's gitignore information here
+# liquibase libraries
+liquibase_libs
+
+metastore_db
