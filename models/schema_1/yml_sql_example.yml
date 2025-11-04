@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: yml_sql_example_1
+      author: mac
+      labels: table:yml_sql_example
+      changes:
+        - sql: |
+            create table yml_sql_example (
+              c1 int primary key,
+              other string
+            )
+
+      rollback: |
+        drop table yml_sql_example
+
+  - changeSet:
+      id: yml_sql_example_2
+      author: mac
+      labels: table:yml_sql_example
+      changes:
+        - sql: |
+            alter table yml_sql_example
+            add column (updatedAt timestamp, deletedAt timestamp)
+      rollback: |
+        alter table yml_sql_example
+        drop column (updatedAt, deletedAt)

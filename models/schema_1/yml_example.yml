@@ -2,10 +2,10 @@ databaseChangeLog:
   - changeSet:
       id: yml_example_1
       author: mac
-      labels: table:yml_example_1
+      labels: table:yml_example
       changes:
         - createTable:
-            tableName: yml_example_1
+            tableName: yml_example
             columns:
               - column:
                   name: c1
@@ -17,4 +17,4 @@ databaseChangeLog:
                   type: string
 
       rollback: |
-        drop table yml_example_1
+        drop table yml_example
