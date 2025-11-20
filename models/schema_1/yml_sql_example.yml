@@ -24,3 +24,17 @@ databaseChangeLog:
       rollback: |
         alter table yml_sql_example
         drop column (updatedAt, deletedAt)
+
+  - changeSet:
+      id: yml_sql_example_3
+      author: mac
+      labels: table:yml_sql_example
+      changes:
+        - sql: |
+            insert into yml_sql_example (c1, other, updatedAt, deletedAt)
+            values (1, "1", TIMESTAMP '2025-11-19 14:30:00', null)
+      rollback:
+        - sql: |
+            delete from yml_sql_example
+            where c1 = 1
+            and other = "1"

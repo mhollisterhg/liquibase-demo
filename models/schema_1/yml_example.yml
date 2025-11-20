@@ -18,3 +18,17 @@ databaseChangeLog:
 
       rollback: |
         drop table yml_example
+
+  - changeSet:
+      id: yml_example_2
+      author: mac
+      labels: table:yml_example
+      changes:
+        - sql: |
+            insert into yml_example (c1, other)
+            values (1, "1")
+      rollback:
+        - sql: |
+            delete from yml_example
+            where c1 = 1
+            and other = "1"
